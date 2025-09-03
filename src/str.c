@@ -8,3 +8,9 @@ str_t *str_new(const char *str) {
 			RET_ERR("Failed to append string.", NULL);
 	RET_OK((str_t*)vec);
 }
+
+void str_del(str_t **str) {
+	VEC(char) **vec = (VEC(char)**)str;
+	if (VEC_DEL(char, vec)) RET_ERR("Failed to delete vec.");
+	*str = NULL;
+}

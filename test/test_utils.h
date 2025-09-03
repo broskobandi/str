@@ -4,6 +4,6 @@
 #include <string.h>
 #include <test.h>
 
-void test_str_new();
+void test_str_new_and_del();
 
 #endif
