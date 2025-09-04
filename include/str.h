@@ -9,10 +9,12 @@ str_t *str_new(const char *str);
 void str_del(str_t **str);
 int str_append(str_t **str, const char *src);
 const char *str_ptr(const str_t *str);
-size_t str_len(const str_t *str); // this has to exclude \0!
-void str_at();
-void str_cpy(); // do we need this?
-void str_capacity();
+/** Excludes \0 */
+size_t str_len(const str_t *str);
+size_t str_size(const str_t *str);
+char str_at(const str_t *str, size_t index);
+int str_cpy(str_t **dst, const str_t *src);
+size_t str_capacity(const str_t *str);
 void str_has();
 void str_cmp();
 void str_prepend();

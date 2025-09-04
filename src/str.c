@@ -34,11 +34,40 @@ int str_append(str_t **str, const char *src) {
 const char *str_ptr(const str_t *str) {
 	if (!str) RET_ERR("Invalid input.", NULL);
 	VEC(char) *vec = (VEC(char)*)str;
-	return VEC_PTR(char, vec, 0);
+	RET_OK(VEC_PTR(char, vec, 0));
 }
 
 size_t str_len(const str_t *str) {
 	if (!str) RET_ERR("Invalid input.", (size_t)-1);
 	VEC(char) *vec = (VEC(char)*)str;
-	return VEC_LEN(char, vec) - 1;
+	RET_OK(VEC_LEN(char, vec) - 1);
+}
+
+size_t str_size(const str_t *str) {
+	if (!str) RET_ERR("Invalid input.", (size_t)-1);
+	VEC(char) *vec = (VEC(char)*)str;
+	RET_OK(VEC_LEN(char, vec));
+}
+
+char str_at(const str_t *str, size_t index) {
+	if (!str) RET_ERR("Invalid input.", (char){0});
+	VEC(char) *vec = (VEC(char)*)str;
+	char elem = {0};
+	if (VEC_AT(char, vec, index, &elem))
+		RET_ERR("Failed to access element.", (char){0});
+	RET_OK(elem);
+}
+
+int str_cpy(str_t **dst, const str_t *src) {
+	if (!dst || !src) RET_ERR("Invalid argument.", 1);
+	VEC(char) **dstvec = (VEC(char)**)dst;
+	VEC(char) *srcvec = (VEC(char)*)src;
+	if (VEC_CPY(char, dstvec, srcvec)) RET_ERR("VEC_CPY() failed.", 1);
+	RET_OK(0);
+}
+
+size_t str_capacity(const str_t *str) {
+	if (!str) RET_ERR("Invalid argument.", 1);
+	VEC(char) *vec = (VEC(char)*)str;
+	RET_OK(VEC_CAPACITY(char, vec));
 }
