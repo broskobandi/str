@@ -28,13 +28,14 @@ void test_str_new_and_del() {
 	} 
 }
 
-void test_str_append_and_ptr() {
+void test_str_append_and_ptr_and_len() {
 	{ // Normal case
 		str_t *str = str_new("Hello");
 		ASSERT(!str_append(&str, ", World!"));
 		VEC(char) *vec = (VEC(char)*)str;
 		ASSERT(VEC_LEN(char, vec) == strlen("Hello, World!") + 1);
 		ASSERT(!strcmp(str_ptr(str), "Hello, World!"));
+		ASSERT(str_len(str) == strlen("Hello, World!"));
 		str_del(&str);
 	}
 	{ // Invalid input

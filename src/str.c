@@ -36,3 +36,9 @@ const char *str_ptr(const str_t *str) {
 	VEC(char) *vec = (VEC(char)*)str;
 	return VEC_PTR(char, vec, 0);
 }
+
+size_t str_len(const str_t *str) {
+	if (!str) RET_ERR("Invalid input.", (size_t)-1);
+	VEC(char) *vec = (VEC(char)*)str;
+	return VEC_LEN(char, vec) - 1;
+}

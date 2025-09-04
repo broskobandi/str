@@ -5,6 +5,6 @@
 #include <test.h>
 
 void test_str_new_and_del();
-void test_str_append_and_ptr();
+void test_str_append_and_ptr_and_len();
 
 #endif
