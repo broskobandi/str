@@ -15,7 +15,7 @@ size_t str_size(const str_t *str);
 char str_at(const str_t *str, size_t index);
 int str_cpy(str_t **dst, const str_t *src);
 size_t str_capacity(const str_t *str);
-void str_has();
+int str_has(const str_t *str, const char *keyword);
 void str_cmp();
 void str_prepend();
 void str_replace();

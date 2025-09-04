@@ -71,3 +71,9 @@ size_t str_capacity(const str_t *str) {
 	VEC(char) *vec = (VEC(char)*)str;
 	RET_OK(VEC_CAPACITY(char, vec));
 }
+
+int str_has(const str_t *str, const char *keyword) {
+	if (!str || !keyword) RET_ERR("Invalid argument.", -1);
+	if (strstr(str_ptr(str), keyword)) RET_OK(1);
+	RET_OK(0);
+}

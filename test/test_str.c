@@ -18,5 +18,8 @@ void test_str() {
 	ASSERT(!strcmp(str_ptr(new_str), "Hello, World!"));
 	ASSERT(str_len(new_str) == str_len(str));
 	ASSERT(str_capacity(new_str) == str_capacity(str));
+	ASSERT(str_has(str, "Hello") == 1);
+	ASSERT(str_has(str, "jello") == 0);
+	ASSERT(str_has(str, NULL) == -1);
 	str_del(&str);
 }
