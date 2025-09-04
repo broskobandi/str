@@ -30,3 +30,9 @@ int str_append(str_t **str, const char *src) {
 		RET_ERR("Failed to zero terminate string.", 1);
 	RET_OK(0);
 }
+
+const char *str_ptr(const str_t *str) {
+	if (!str) RET_ERR("Invalid input.", NULL);
+	VEC(char) *vec = (VEC(char)*)str;
+	return VEC_PTR(char, vec, 0);
+}

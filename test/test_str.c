@@ -31,9 +31,13 @@ void test_str_new_and_del() {
 void test_str_append_and_ptr() {
 	{ // Normal case
 		str_t *str = str_new("Hello");
-		ASSERT(!str_append(&str, " world!"));
+		ASSERT(!str_append(&str, ", World!"));
 		VEC(char) *vec = (VEC(char)*)str;
-		ASSERT(VEC_LEN(char, vec) == strlen("Hello world!") + 1);
+		ASSERT(VEC_LEN(char, vec) == strlen("Hello, World!") + 1);
+		ASSERT(!strcmp(str_ptr(str), "Hello, World!"));
 		str_del(&str);
+	}
+	{ // Invalid input
+		ASSERT(!str_ptr(NULL));
 	}
 }
