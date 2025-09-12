@@ -19,7 +19,6 @@ EXAMPLE_DIR := example
 
 # Files
 SRC := $(wildcard $(SRC_DIR)/*.c)
-INC_PRIV := $(wildcard $(SRC_DIR)/*.h)
 INC := $(INC_DIR)/$(PROJECT).h
 OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 LIB_A := $(BUILD_DIR)/lib$(PROJECT).a
@@ -68,7 +67,7 @@ $(LIB_SO): $(OBJ) | $(BUILD_DIR)
 $(TEST_EXE): $(TEST_MAIN) $(OBJ) | $(BUILD_DIR)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $^ -o $@ $(LDFLAGS)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC) $(INC_PRIV) | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC) | $(OBJ_DIR)
 	$(CC) -c -fPIC $(CFLAGS) $(CPPFLAGS) $< -o $@
 
 $(EXAMPLE_EXE): $(EXAMPLE_MAIN) | $(BUILD_DIR)
