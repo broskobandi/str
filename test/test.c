@@ -73,22 +73,12 @@ void test_replace() {
 	}
 }
 
-void test_str_cmp() {
-	{ // shorter
-		str_t *str = str_new("Hello");
-		ASSERT(str_cmp(str, "Helloooo") < 0);
-		str_del(str);
-	}
-	{ // longer
-		str_t *str = str_new("Hello");
-		ASSERT(str_cmp(str, "Hell") > 0);
-		str_del(str);
-	}
-	{ // equal
-		str_t *str = str_new("Hello");
-		ASSERT(str_cmp(str, "Hello") == 0);
-		str_del(str);
-	}
+void test_same() {
+	str_t *str = str_new("Hello");
+	ASSERT(str_same(str, "Hello") == 1);
+	ASSERT(str_same(str, "Jello") == 0);
+	ASSERT(str_same(str, NULL) == -1);
+	str_del(str);
 }
 
 void test_pop_back() {
@@ -96,7 +86,7 @@ void test_pop_back() {
 	char c;
 	ASSERT(!str_pop_back(str, &c));
 	ASSERT(c == '!');
-	ASSERT(!str_cmp(str, "Hello"));
+	ASSERT(str_same(str, "Hello"));
 	str_del(str);
 }
 
@@ -105,21 +95,21 @@ void test_pop_front() {
 	char c;
 	ASSERT(!str_pop_front(str, &c));
 	ASSERT(c == 'H');
-	ASSERT(!str_cmp(str, "ello!"));
+	ASSERT(str_same(str, "ello!"));
 	str_del(str);
 }
 
 void test_push_back() {
 	str_t *str = str_new("Hello");
 	ASSERT(!str_push_back(str, '!'));
-	ASSERT(!str_cmp(str, "Hello!"));
+	ASSERT(str_same(str, "Hello!"));
 	str_del(str);
 }
 
 void test_push_front() {
 	str_t *str = str_new("ello!");
 	ASSERT(!str_push_front(str, 'H'));
-	ASSERT(!str_cmp(str, "Hello!"));
+	ASSERT(str_same(str, "Hello!"));
 	str_del(str);
 }
 
@@ -129,7 +119,7 @@ int main(void) {
 	test_prepend();
 	test_find();
 	test_replace();
-	test_str_cmp();
+	test_same();
 	test_pop_back();
 	test_pop_front();
 	test_push_back();
