@@ -1,9 +1,9 @@
-#include "../test_utils.h"
+#include "str_private.h"
+#include <test.h>
 
 TEST_INIT;
 
 int main(void) {
-	test_str();
 
 	test_print_results();
 	return 0;
