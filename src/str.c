@@ -36,14 +36,14 @@ SOFTWARE.
  * \param src A string to initialize the object with (can be NULL).
  * \return A pointer to the str object. */
 str_t *str_new(const char *src) {
-	vec_t *vec = vec_new(sizeof(char));
+	vec_generic_t *vec = vec_generic_new(sizeof(char));
 	if (!vec) return NULL;
 	if (src) {
-		if (vec_append(vec, src, strlen(src), sizeof(char)))
+		if (vec_generic_append(vec, src, strlen(src), sizeof(char)))
 			return NULL;
 	}
 	char nullterm = '\0';
-	if (vec_push_back(vec, &nullterm, sizeof(char)))
+	if (vec_generic_push_back(vec, &nullterm, sizeof(char)))
 		return NULL;
 	return (str_t*)vec;
 }
@@ -53,8 +53,8 @@ str_t *str_new(const char *src) {
  * \return 0 on success or 1 on failure. */
 int str_del(str_t *str) {
 	if (!str) return 1;
-	vec_t *vec = (vec_t*)str;
-	return vec_del(vec);
+	vec_generic_t *vec = (vec_generic_t*)str;
+	return vec_generic_del(vec);
 }
 
 /** Returns a const pointer to the raw c string.
@@ -62,8 +62,8 @@ int str_del(str_t *str) {
  * \return A const pointer to the raw c string. */
 const char *str_view(const str_t *str) {
 	if (!str) return NULL;
-	vec_t *vec = (vec_t*)str;
-	return (const char*)vec_view(vec, 0);
+	vec_generic_t *vec = (vec_generic_t*)str;
+	return (const char*)vec_generic_view(vec, 0);
 }
 
 /** Returns the length of the str object (excluding the zero terminator).
@@ -71,8 +71,8 @@ const char *str_view(const str_t *str) {
  * \return The length of the str object or (size_t)-1 on failure. */
 size_t str_len(const str_t *str) {
 	if (!str) return (size_t)-1;
-	vec_t *vec = (vec_t*)str;
-	return vec_len(vec) - 1;
+	vec_generic_t *vec = (vec_generic_t*)str;
+	return vec_generic_len(vec) - 1;
 }
 
 /** Appends a string at the end of the str object.
@@ -81,11 +81,11 @@ size_t str_len(const str_t *str) {
  * \return 0 on success or 1 on failure. */
 int str_append(str_t *str, const char *src) {
 	if (!str || !src) return 1;
-	vec_t *vec = (vec_t*)str;
+	vec_generic_t *vec = (vec_generic_t*)str;
 	if (
-		vec_replace_range(
+		vec_generic_replace_range(
 			vec, src, strlen(src),
-			vec_len(vec) - 1, 0, sizeof(char)
+			vec_generic_len(vec) - 1, 0, sizeof(char)
 		)
 	) {
 		return 1;
@@ -99,8 +99,8 @@ int str_append(str_t *str, const char *src) {
  * \return 0 on success or 1 on failure. */
 int str_prepend(str_t *str, const char *src) {
 	if (!str || !src) return 1;
-	vec_t *vec = (vec_t*)str;
-	if (vec_prepend(vec, src, strlen(src), sizeof(char)))
+	vec_generic_t *vec = (vec_generic_t*)str;
+	if (vec_generic_prepend(vec, src, strlen(src), sizeof(char)))
 		return 1;
 	return 0;
 }
@@ -125,11 +125,11 @@ const char *str_find(const str_t *str, const char *keyword) {
 int str_replace(str_t *str, const char *toreplace, const char *src) {
 	if (!str || !toreplace || !src) return 1;
 	while (str_find(str, toreplace)) {
-		vec_t *vec = (vec_t*)str;
+		vec_generic_t *vec = (vec_generic_t*)str;
 		size_t index = (size_t)((intptr_t)str_find(str, toreplace) - 
 			(intptr_t)str_view(str));
 		if (
-			vec_replace_range(
+			vec_generic_replace_range(
 				vec, src, strlen(src), index,
 				strlen(toreplace), sizeof(char)
 			)
@@ -162,11 +162,11 @@ int str_same(const str_t *str, const char *src) {
  * \return 0 on success or 1 on failure. */
 int str_pop_back(str_t *str, char *c) {
 	if (!str) return 1;
-	vec_t *vec = (vec_t*)str;
+	vec_generic_t *vec = (vec_generic_t*)str;
 	if (c)
-		if (vec_at(vec, c, vec_len(vec) - 2, sizeof(char)))
+		if (vec_generic_at(vec, c, vec_generic_len(vec) - 2, sizeof(char)))
 			return 1;
-	if (vec_remove(vec, vec_len(vec) - 2))
+	if (vec_generic_remove(vec, vec_generic_len(vec) - 2))
 		return 1;
 	return 0;
 }
@@ -178,11 +178,11 @@ int str_pop_back(str_t *str, char *c) {
  * \return 0 on success or 1 on failure. */
 int str_pop_front(str_t *str, char *c) {
 	if (!str) return 1;
-	vec_t *vec = (vec_t*)str;
+	vec_generic_t *vec = (vec_generic_t*)str;
 	if (c)
-		if (vec_at(vec, c, 0, sizeof(char)))
+		if (vec_generic_at(vec, c, 0, sizeof(char)))
 			return 1;
-	if (vec_remove(vec, 0))
+	if (vec_generic_remove(vec, 0))
 		return 1;
 	return 0;
 }
@@ -193,8 +193,8 @@ int str_pop_front(str_t *str, char *c) {
  * \return 0 on success or 1 on failure. */
 int str_push_back(str_t *str, char c) {
 	if (!str) return 1;
-	vec_t *vec = (vec_t*)str;
-	if (vec_insert(vec, &c, vec_len(vec) - 1, sizeof(char)))
+	vec_generic_t *vec = (vec_generic_t*)str;
+	if (vec_generic_insert(vec, &c, vec_generic_len(vec) - 1, sizeof(char)))
 		return 1;
 	return 0;
 }
@@ -205,8 +205,8 @@ int str_push_back(str_t *str, char c) {
  * \return 0 on success or 1 on failure. */
 int str_push_front(str_t *str, char c) {
 	if (!str) return 1;
-	vec_t *vec = (vec_t*)str;
-	if (vec_push_front(vec, &c, sizeof(char)))
+	vec_generic_t *vec = (vec_generic_t*)str;
+	if (vec_generic_push_front(vec, &c, sizeof(char)))
 		return 1;
 	return 0;
 }
